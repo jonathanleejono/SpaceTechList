@@ -46,7 +46,7 @@ import { authRoute, registerRoute } from "constants/routes";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEyeCloseLine } from "react-icons/ri";
 
-function SignIn() {
+export default function Register() {
   // Chakra color mode
   const textColor = useColorModeValue("navy.700", "white");
   const textColorSecondary = "gray.400";
@@ -75,7 +75,7 @@ function SignIn() {
       >
         <Box me="auto">
           <Heading color={textColor} fontSize="36px" mb="10px">
-            Sign In
+            Register
           </Heading>
           <Text
             mb="36px"
@@ -84,7 +84,7 @@ function SignIn() {
             fontWeight="400"
             fontSize="md"
           >
-            Enter your email and password to sign in!
+            Enter your email and password to register!
           </Text>
         </Box>
         <Flex
@@ -185,5 +185,3 @@ function SignIn() {
     </DefaultAuth>
   );
 }
-
-export default SignIn;

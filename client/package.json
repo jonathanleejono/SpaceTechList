@@ -41,7 +41,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "predeploy": "npm run build"
+    "predeploy": "npm run build",
+    "lint": "eslint ./",
+    "lint-fix": "eslint ./ --fix"
   },
   "eslintConfig": {
     "extends": [
@@ -64,6 +66,11 @@
   "devDependencies": {
     "@types/react-calendar": "^3.5.2",
     "@types/react-router-dom": "^5.3.3",
-    "@types/react-table": "^7.7.12"
+    "@types/react-table": "^7.7.12",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "eslint": "^8.28.0",
+    "eslint-plugin-react": "^7.31.11",
+    "eslint-plugin-react-hooks": "^4.6.0"
   }
 }

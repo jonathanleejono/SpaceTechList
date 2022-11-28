@@ -21,7 +21,17 @@
 */
 
 // Chakra imports
-import { Box, Grid } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  FormControl,
+  FormLabel,
+  Grid,
+  Input,
+  Text,
+  useColorModeValue,
+} from "@chakra-ui/react";
 
 // Custom components
 import Banner from "views/admin/profile/components/Banner";
@@ -33,8 +43,16 @@ import Upload from "views/admin/profile/components/Upload";
 // Assets
 import banner from "assets/img/auth/banner.png";
 import avatar from "assets/img/avatars/avatar4.png";
+import { authRoute, registerRoute } from "constants/routes";
+import { NavLink } from "react-router-dom";
 
 export default function Overview() {
+  const textColor = useColorModeValue("navy.700", "white");
+  // const textColorSecondary = "gray.400";
+  const textColorDetails = useColorModeValue("navy.700", "secondaryGray.600");
+  const textColorBrand = useColorModeValue("brand.500", "white");
+  const brandStars = useColorModeValue("brand.500", "brand.400");
+
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
       {/* Main Fields */}
@@ -102,15 +120,72 @@ export default function Overview() {
           minH="365px"
           pe="20px"
         />
-        {/* <Notifications
-					used={25.6}
-					total={50}
-					gridArea={{
-						base: '3 / 1 / 4 / 2',
-						lg: '2 / 1 / 3 / 3',
-						'2xl': '1 / 3 / 2 / 4'
-					}}
-				/> */}
+        <Flex
+          zIndex="2"
+          direction="column"
+          w={{ base: "100%", md: "420px" }}
+          maxW="100%"
+          background="transparent"
+          borderRadius="15px"
+          mx={{ base: "auto", lg: "unset" }}
+          me="auto"
+          mb={{ base: "20px", md: "auto" }}
+        >
+          <FormControl>
+            <FormLabel
+              display="flex"
+              ms="4px"
+              fontSize="sm"
+              fontWeight="500"
+              color={textColor}
+              mb="8px"
+            >
+              Email<Text color={brandStars}>*</Text>
+            </FormLabel>
+            <Input
+              isRequired={true}
+              variant="authTertiary"
+              fontSize="sm"
+              ms={{ base: "0px", md: "0px" }}
+              type="email"
+              placeholder="mail@simmmple.com"
+              mb="24px"
+              fontWeight="500"
+              size="lg"
+            />
+            <Button
+              fontSize="sm"
+              variant="brand"
+              fontWeight="500"
+              w="100%"
+              h="50"
+              mb="24px"
+            >
+              Sign In
+            </Button>
+          </FormControl>
+          <Flex
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="start"
+            maxW="100%"
+            mt="0px"
+          >
+            <Text color={textColorDetails} fontWeight="400" fontSize="14px">
+              Not registered yet?
+              <NavLink to={`${authRoute}${registerRoute}`}>
+                <Text
+                  color={textColorBrand}
+                  as="span"
+                  ms="5px"
+                  fontWeight="500"
+                >
+                  Create an Account
+                </Text>
+              </NavLink>
+            </Text>
+          </Flex>
+        </Flex>
       </Grid>
     </Box>
   );

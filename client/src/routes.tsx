@@ -1,4 +1,5 @@
 import { Icon } from "@chakra-ui/react";
+import { authRoute, registerRoute } from "constants/routes";
 import { MdBarChart, MdHome, MdLock, MdPerson } from "react-icons/md";
 
 // Admin Imports
@@ -7,31 +8,17 @@ import NFTMarketplace from "views/admin/marketplace";
 import Profile from "views/admin/profile";
 
 // Auth Imports
+import Register from "views/auth/register";
 import SignInCentered from "views/auth/signIn";
 
 const routes = [
   {
     name: "Main Dashboard",
     layout: "/admin",
-    path: "/default", // /default
+    path: "/default",
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
-    component: NFTMarketplace, // MainDashboard
+    component: NFTMarketplace,
   },
-  //   {
-  //     name: "NFT Marketplace",
-  //     layout: "/admin",
-  //     path: "/nft-marketplace",
-  //     icon: (
-  //       <Icon
-  //         as={MdOutlineShoppingCart}
-  //         width="20px"
-  //         height="20px"
-  //         color="inherit"
-  //       />
-  //     ),
-  //     component: NFTMarketplace,
-  //     // secondary: true,
-  //   },
   {
     name: "Data Tables",
     layout: "/admin",
@@ -48,18 +35,18 @@ const routes = [
   },
   {
     name: "Sign In",
-    layout: "/auth",
+    layout: authRoute,
     path: "/sign-in",
     icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
     component: SignInCentered,
   },
-  // {
-  // 	name: 'RTL Admin',
-  // 	layout: '/rtl',
-  // 	path: '/rtl-default',
-  // 	icon: <Icon as={MdHome} width='20px' height='20px' color='inherit' />,
-  // 	component: RTL
-  // }
+  {
+    name: "Register",
+    layout: authRoute,
+    path: registerRoute,
+    icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
+    component: Register,
+  },
 ];
 
 export default routes;
