@@ -12,13 +12,10 @@ import { SidebarContext } from 'contexts/SidebarContext';
 export default function Auth() {
 	// states and functions
 	const [ toggleSidebar, setToggleSidebar ] = useState(false); 
-	const getRoute = () => {
-		return window.location.pathname !== '/auth/full-screen-maps';
-	};
+	const getRoute = () => window.location.pathname !== '/auth/full-screen-maps';
 	const getRoutes = (
 		routes: RoutesType[]
-	): any => {
-		return routes.map(
+	): any => routes.map(
 			(
 				route: RoutesType,
 				key: any
@@ -30,7 +27,6 @@ export default function Auth() {
 				}
 			}
 		);
-	};
 	const authBg = useColorModeValue('white', 'navy.900');
 	document.documentElement.dir = 'ltr';
 	return (

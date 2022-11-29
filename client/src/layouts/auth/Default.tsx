@@ -86,6 +86,7 @@ function AuthIllustration(props: {
 
 AuthIllustration.propTypes = {
   illustrationBackground: PropTypes.string,
+  // eslint-disable-next-line react/no-unused-prop-types
   image: PropTypes.any,
 };
 

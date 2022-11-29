@@ -7,7 +7,7 @@ import { HSeparator } from "components/separator/Separator";
 
 export function SidebarBrand() {
   //   Chakra color mode
-  let logoColor = useColorModeValue("navy.700", "white");
+  const logoColor = useColorModeValue("navy.700", "white");
 
   return (
     <Flex alignItems="center" flexDirection="column">

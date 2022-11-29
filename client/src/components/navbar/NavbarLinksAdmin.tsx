@@ -27,10 +27,10 @@ import { MdInfoOutline, MdNotificationsNone } from "react-icons/md";
 import routes from "routes";
 export default function HeaderLinks(props: { secondary: boolean }) {
   const { secondary } = props;
-  const { colorMode, toggleColorMode } = useColorMode();
   // Chakra Color Mode
+  const { colorMode, toggleColorMode } = useColorMode();
   const navbarIcon = useColorModeValue("gray.400", "white");
-  let menuBg = useColorModeValue("white", "navy.800");
+  const menuBg = useColorModeValue("white", "navy.800");
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const textColorBrand = useColorModeValue("brand.700", "brand.400");
   const ethColor = useColorModeValue("gray.700", "white");
@@ -42,6 +42,7 @@ export default function HeaderLinks(props: { secondary: boolean }) {
     "14px 17px 40px 4px rgba(112, 144, 176, 0.06)"
   );
   const borderButton = useColorModeValue("secondaryGray.500", "whiteAlpha.200");
+
   return (
     <Flex
       w={{ sm: "100%", md: "auto" }}
@@ -308,6 +309,6 @@ export default function HeaderLinks(props: { secondary: boolean }) {
 HeaderLinks.propTypes = {
   variant: PropTypes.string,
   fixed: PropTypes.bool,
-  secondary: PropTypes.bool,
   onOpen: PropTypes.func,
+  secondary: PropTypes.bool,
 };

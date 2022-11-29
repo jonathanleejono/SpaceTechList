@@ -23,11 +23,11 @@ import { IoMenuOutline } from 'react-icons/io5';
 function Sidebar(props: { routes: RoutesType[]; [x: string]: any }) {
 	const { routes } = props;
 
-	let variantChange = '0.2s linear';
-	let shadow = useColorModeValue('14px 17px 40px 4px rgba(112, 144, 176, 0.08)', 'unset');
+	const variantChange = '0.2s linear';
+	const shadow = useColorModeValue('14px 17px 40px 4px rgba(112, 144, 176, 0.08)', 'unset');
 	// Chakra Color Mode
-	let sidebarBg = useColorModeValue('white', 'navy.800');
-	let sidebarMargins = '0px';
+	const sidebarBg = useColorModeValue('white', 'navy.800');
+	const sidebarMargins = '0px';
 
 	// SIDEBAR
 	return (
@@ -55,8 +55,8 @@ function Sidebar(props: { routes: RoutesType[]; [x: string]: any }) {
 
 // FUNCTIONS
 export function SidebarResponsive(props: { routes: RoutesType[] }) {
-	let sidebarBackgroundColor = useColorModeValue('white', 'navy.800');
-	let menuColor = useColorModeValue('gray.400', 'white');
+	const sidebarBackgroundColor = useColorModeValue('white', 'navy.800');
+	const menuColor = useColorModeValue('gray.400', 'white');
 	// // SIDEBAR
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const btnRef = React.useRef();
