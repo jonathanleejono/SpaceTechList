@@ -39,6 +39,43 @@ import Nft3 from 'assets/img/nfts/Nft3.png';
 export default function Marketplace() {
 	// Chakra Color Mode
 	const textColor = useColorModeValue('secondaryGray.900', 'white');
+	const test = [
+  {
+    "name":["Marketplace",false],
+    "quantity": 2458, 
+    "date": "12.Jan.2021",
+    "progress": 75.5  
+  },
+  {
+    "name":["Venus DB PRO",true],
+    "quantity": 1485, 
+    "date": "21.Feb.2021",
+    "progress": 35.4  
+  },
+  {
+    "name":["Venus DS",true],
+    "quantity": 1024, 
+    "date": "13.Mar.2021",
+    "progress": 25  
+  }];
+
+  const test2 = [
+				 {"name": 'Abstract Colors', "author":'By Esthera Jackson', 
+  				  "bidders":[ Avatar1, Avatar2, Avatar3, Avatar4, Avatar1, Avatar1, Avatar1, Avatar1 ],
+				  "image": Nft1,
+				  "currentbid":'0.91 ETH',
+				  "download":'#'},
+				 {"name": 'Abstract Colors', "author":'By Esthera Jackson', 
+  				  "bidders":[ Avatar1, Avatar2, Avatar3, Avatar4, Avatar1, Avatar1, Avatar1, Avatar1 ],
+				  "image": Nft1,
+				  "currentbid":'0.91 ETH',
+				  "download":'#'},
+				 {"name": 'Abstract Colors', "author":'By Esthera Jackson', 
+  				  "bidders":[ Avatar1, Avatar2, Avatar3, Avatar4, Avatar1, Avatar1, Avatar1, Avatar1 ],
+				  "image": Nft1,
+				  "currentbid":'0.91 ETH',
+				  "download":'#'},
+				]
 	
 	return (
 		<Box pt={{ base: '180px', md: '80px', xl: '80px' }}>
@@ -85,6 +122,28 @@ export default function Marketplace() {
 								currentbid='0.91 ETH'
 								download='#'
 							/>
+						</SimpleGrid>
+						<SimpleGrid columns={{ base: 1, md: 3 }} gap='20px'>
+						{test.map((obj) => (
+							<Text color={textColor} fontSize='2xl' ms='24px' fontWeight='700'>
+								{obj.date}
+							</Text>
+						))}
+
+						</SimpleGrid>
+						<SimpleGrid columns={{ base: 1, md: 3 }} gap='20px'>
+						{test2.map((obj) => (
+							<NFT
+								key={obj.name}
+								name={obj.name}
+								author={obj.author}
+								bidders={obj.bidders}
+								image={obj.image}
+								currentbid={obj.currentbid}
+								download={obj.download}
+							/>
+						))}
+
 						</SimpleGrid>
 					</Flex>
 				</Flex>
