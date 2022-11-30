@@ -3,6 +3,7 @@ import { Box, Portal, useDisclosure } from "@chakra-ui/react";
 // Layout components
 import NavbarAdmin from "components/navbar/NavbarAdmin";
 import Sidebar from "components/sidebar/Sidebar";
+import { adminRoute, mainRoute } from "constants/routes";
 import { SidebarContext } from "contexts/SidebarContext";
 import { useState } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
@@ -55,8 +56,9 @@ export default function Dashboard(props: { [x: string]: any }) {
     return activeNavbar;
   };
 
-  const getRoutes = (routes: RoutesType[]): any => routes.map((route: RoutesType, key: any) => {
-      if (route.layout === "/admin") {
+  const getRoutes = (routes: RoutesType[]): any =>
+    routes.map((route: RoutesType, key: any) => {
+      if (route.layout === adminRoute) {
         return (
           <Route
             path={route.layout + route.path}
@@ -119,7 +121,7 @@ export default function Dashboard(props: { [x: string]: any }) {
             >
               <Switch>
                 {getRoutes(routes)}
-                <Redirect from="/" to="/admin/default" />
+                <Redirect from="/" to={`${adminRoute}${mainRoute}`} />
               </Switch>
             </Box>
           ) : null}

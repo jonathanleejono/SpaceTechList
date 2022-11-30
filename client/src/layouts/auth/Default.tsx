@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 // Custom components
 import { NavLink } from "react-router-dom";
 // Assets
+import { adminRoute } from "constants/routes";
 import { FaChevronLeft } from "react-icons/fa";
 
 function AuthIllustration(props: {
@@ -32,7 +33,7 @@ function AuthIllustration(props: {
         direction="column"
       >
         <NavLink
-          to="/admin"
+          to={adminRoute}
           style={() => ({
             width: "fit-content",
             marginTop: "40px",

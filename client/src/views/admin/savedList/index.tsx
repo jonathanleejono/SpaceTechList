@@ -22,9 +22,9 @@
 
 // Chakra imports
 import { Box, SimpleGrid } from "@chakra-ui/react";
-import CheckTable from "views/admin/dataTables/components/CheckTable";
-import { columnsDataCheck } from "views/admin/dataTables/variables/columnsData";
-import tableDataCheck from "views/admin/dataTables/variables/tableDataCheck.json";
+import CheckTable from "views/admin/savedList/components/CheckTable";
+import { columnsDataCheck } from "views/admin/savedList/variables/columnsData";
+import tableDataCheck from "views/admin/savedList/variables/tableDataCheck.json";
 
 export default function Settings() {
   // Chakra Color Mode

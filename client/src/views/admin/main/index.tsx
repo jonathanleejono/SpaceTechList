@@ -32,7 +32,7 @@ import {
 
 // Custom components
 import NFT from "components/card/NFT";
-import Banner from "views/admin/marketplace/components/Banner";
+import Banner from "views/admin/main/components/Banner";
 
 // Assets
 import Avatar1 from "assets/img/avatars/avatar1.png";
@@ -42,8 +42,10 @@ import Avatar4 from "assets/img/avatars/avatar4.png";
 import Nft1 from "assets/img/nfts/Nft1.png";
 import Nft2 from "assets/img/nfts/Nft2.png";
 import Nft3 from "assets/img/nfts/Nft3.png";
+import axios from "axios";
+import { useCallback, useEffect } from "react";
 
-export default function Marketplace() {
+export default function Main() {
   // Chakra Color Mode
   const textColor = useColorModeValue("secondaryGray.900", "white");
   // 	const test = [
@@ -65,6 +67,47 @@ export default function Marketplace() {
   //     "date": "13.Mar.2021",
   //     "progress": 25
   //   }];
+
+  const handleFetchApis = useCallback(async (): Promise<string> => {
+    try {
+      const resultAction = await axios.get(
+        "https://api.nasa.gov/techtransfer/patent/?engine&api_key=ssiutVFb8AlTB0um9SFbaeavYSRO1E0n6oWBekdB"
+      );
+      console.log("result: ", resultAction);
+      // console.log(resultAction.data.results);
+      return "10";
+    } catch (error) {
+      console.log("err: ", error);
+      return;
+    }
+
+    // console.log("result2: ", resultAction.data.results);
+
+    // handleToastErrors(resultAction, getAllApis, getAllApisErrorMsg);
+  }, []);
+
+  const test30 = [
+    {
+      name: [
+        "@maddison_c21",
+        "https://images.unsplash.com/photo-1506863530036-1efeddceb993?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2244&q=80",
+      ],
+      artworks: "9821",
+      rating: 97,
+    },
+    {
+      name: [
+        "@karl.will02",
+        "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1780&q=80",
+      ],
+      artworks: "7032",
+      rating: 87,
+    },
+  ];
+
+  useEffect(() => {
+    handleFetchApis();
+  }, [handleFetchApis]);
 
   const test2 = [
     {
@@ -207,17 +250,21 @@ export default function Marketplace() {
 
 						</SimpleGrid> */}
             <SimpleGrid columns={{ base: 1, md: 3 }} gap="20px">
-              {test2.map((obj) => (
-                <NFT
-                  key={obj.name}
-                  name={obj.name}
-                  author={obj.author}
-                  bidders={obj.bidders}
-                  image={obj.image}
-                  currentbid={obj.currentbid}
-                  download={obj.download}
-                />
-              ))}
+              {test2.map((obj) => {
+                console.log(test30);
+
+                return (
+                  <NFT
+                    key={obj.name}
+                    name={obj.name}
+                    author={obj.author}
+                    bidders={obj.bidders}
+                    image={obj.image}
+                    currentbid={obj.currentbid}
+                    download={obj.download}
+                  />
+                );
+              })}
             </SimpleGrid>
           </Flex>
         </Flex>
