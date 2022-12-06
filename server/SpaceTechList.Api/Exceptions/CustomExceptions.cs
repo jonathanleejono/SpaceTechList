@@ -18,10 +18,18 @@
             }
         }
 
+        public abstract class CustomUnauthorizedException : Exception
+        {
+            protected CustomUnauthorizedException(string message)
+                : base(message)
+            {
+            }
+        }
+
         public sealed class EmailExistsException : CustomBadRequestException
         {
-            public EmailExistsException(string email)
-        : base($"The account with the identifier {email} does not belong to the owner with the identifier")
+            public EmailExistsException()
+        : base("Please use a different email")
             {
             }
         }
@@ -29,6 +37,22 @@
         public sealed class NotFoundException : CustomNotFoundException
         {
             public NotFoundException(string message)
+        : base(message)
+            {
+            }
+        }
+
+        public sealed class UserNotFoundException : CustomNotFoundException
+        {
+            public UserNotFoundException()
+        : base("User not found")
+            {
+            }
+        }
+
+        public sealed class UnauthorizedException : CustomUnauthorizedException
+        {
+            public UnauthorizedException(string message)
         : base(message)
             {
             }

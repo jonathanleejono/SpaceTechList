@@ -5,8 +5,11 @@ namespace SpaceTechList.Api.Middleware
 {
     internal sealed class CustomExceptionMiddleware : IMiddleware
     {
-        private readonly ILogger<CustomExceptionMiddleware> _logger;
-        public CustomExceptionMiddleware(ILogger<CustomExceptionMiddleware> logger) => _logger = logger;
+        private readonly ILogger<CustomExceptionMiddleware> logger;
+
+        public CustomExceptionMiddleware(ILogger<CustomExceptionMiddleware> logger) {
+            this.logger = logger;
+        }
 
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
@@ -16,7 +19,7 @@ namespace SpaceTechList.Api.Middleware
             }
             catch (Exception e)
             {
-                _logger.LogError(e, e.Message);
+                logger.LogError("Error: " + e.Message);
 
                 await HandleExceptionAsync(context, e);
             }
@@ -31,12 +34,13 @@ namespace SpaceTechList.Api.Middleware
                 CustomBadRequestException => StatusCodes.Status400BadRequest,
                 CustomNotFoundException => StatusCodes.Status404NotFound,
                 BadHttpRequestException => StatusCodes.Status400BadRequest,
+                CustomUnauthorizedException => StatusCodes.Status401Unauthorized,
                 _ => StatusCodes.Status500InternalServerError
             };
 
             var response = new
             {
-                error = exception.Message
+                message = exception.Message
             };
 
             await httpContext.Response.WriteAsync(JsonSerializer.Serialize(response));

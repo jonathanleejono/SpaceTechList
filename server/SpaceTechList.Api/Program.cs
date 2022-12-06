@@ -4,39 +4,78 @@ using SpaceTechList.Api.Db;
 using SpaceTechList.Api.Interfaces;
 using SpaceTechList.Api.Repositories;
 using SpaceTechList.Api.Middleware;
+using SpaceTechList.Api.Validation;
 using Microsoft.AspNetCore.HttpLogging;
+using FluentValidation.AspNetCore;
+using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.Net.Http.Headers;
+using Microsoft.Extensions.Configuration;
+using SpaceTechList.Api;
+using Microsoft.Extensions.DependencyInjection;
+using SpaceTechList.Api.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+var services = builder.Services;
 
-builder.Services.AddControllers();
+var configuration = builder.Configuration;
+
+services.AddTransient<CustomExceptionMiddleware>();
+
+services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
+});
+
+services.AddFluentValidationAutoValidation();
+
+services.AddFluentValidationClientsideAdapters();
+
+services.AddValidatorsFromAssemblyContaining<UserValidator.RegisterUserValidator>();
+
+services.AddValidatorsFromAssemblyContaining<UserValidator.UpdateUserValidator>();
+
+services.AddMvc(options => { options.Filters.Add(typeof(ValidateModelStateMiddleware)); });
+
+services.AddAutoMapper(typeof(Program));
+
+services.AddScoped<IJwtUtil, JwtUtil>();
+
+services.AddScoped<IUserRepository, UserRepository>();
+
+services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+services.AddEndpointsApiExplorer();
+
+services.AddSwaggerGen();
 
 var dbConnectionString = String.Format("{0};Password={1}",
-    builder.Configuration.GetConnectionString("SpaceTechListConnection"),
-    builder.Configuration["DbPassword:MSSQL"]);
+    configuration.GetConnectionString("SpaceTechListConnection"),
+    configuration["DbPassword:MSSQL"]);
 
-builder.Services.AddDbContextPool<SpaceTechListDbContext>(options =>
+services.AddDbContextPool<SpaceTechListDbContext>(options =>
     options.UseSqlServer(dbConnectionString)
 );
 
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-
-builder.Services.AddTransient<CustomExceptionMiddleware>();
-
 var app = builder.Build();
+
+app.UseCors(policy =>
+    policy.WithOrigins("http://localhost:7060")
+    .AllowAnyMethod()
+);
 
 app.UseHttpLogging();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseSwagger();
+//    app.UseSwaggerUI();
+//}
 
 app.UseMiddleware<CustomExceptionMiddleware>();
 
@@ -52,9 +91,12 @@ app.UseStatusCodePages(new StatusCodePagesOptions()
     }
 });
 
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.MapGet("/ping", () => new {ping = "pong!"});
 
 app.MapControllers();
 

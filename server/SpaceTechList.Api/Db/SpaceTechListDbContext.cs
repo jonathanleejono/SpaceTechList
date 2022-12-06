@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SpaceTechList.Api.Models;
+using SpaceTechList.Api.Utils;
 
 namespace SpaceTechList.Api.Db
 {
@@ -42,7 +43,7 @@ namespace SpaceTechList.Api.Db
                 FirstName = "Bob",
                 LastName = "Builder",
                 Email = "bob@gmail.com",
-                Password = "hello123"
+                Password = PasswordUtil.HashPassword("password123")
 
             });
 
@@ -52,9 +53,10 @@ namespace SpaceTechList.Api.Db
                 FirstName = "Jim",
                 LastName = "John",
                 Email = "jim@gmail.com",
-                Password = "hello123"
+                Password = PasswordUtil.HashPassword("password123")
 
             });
+
         }
 
         public DbSet<User> Users { get; set; }

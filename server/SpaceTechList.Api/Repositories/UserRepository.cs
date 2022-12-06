@@ -4,16 +4,25 @@ using SpaceTechList.Api.Interfaces;
 using SpaceTechList.Api.Models;
 using Microsoft.EntityFrameworkCore;
 using static SpaceTechList.Api.Exceptions.CustomExceptions;
+using SpaceTechList.Api.Validation;
+using FluentValidation.Results;
+using SpaceTechList.Api.Utils;
+using SpaceTechList.Api.Controllers;
+using Microsoft.AspNetCore.Identity;
+using AutoMapper;
 
 namespace SpaceTechList.Api.Repositories
 {
     public class UserRepository : IUserRepository
     {
         private readonly SpaceTechListDbContext db;
+        private readonly IMapper mapper;
 
-        public UserRepository(SpaceTechListDbContext db)
+        public UserRepository(SpaceTechListDbContext db, IMapper mapper)
         {
             this.db = db;
+            this.mapper = mapper;
+
         }
 
         private async Task<bool> EmailExists(string email)
@@ -22,34 +31,51 @@ namespace SpaceTechList.Api.Repositories
 
         }
 
-        //public Task<User> GetUser(int userId)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public async Task<User> GetUser(int userId)
+        {
+            var user = await db.Users.SingleOrDefaultAsync(u => u.Id == userId);
 
-        //public Task<User> LoginUser(LoginUserDto loginUserDto)
-        //{
-        //    throw new NotImplementedException();
-        //}
+            if (user == null)
+            {
+                throw new UserNotFoundException();
+            }
 
-        //public Task<User> LogoutUser(int userId)
-        //{
-        //    throw new NotImplementedException();
-        //}
+            return user;
+        }
+
+        public async Task<User> LoginUser(LoginUserDto loginUserDto)
+        {
+            var user = await db.Users.SingleOrDefaultAsync(u => u.Email == loginUserDto.Email);
+
+            if (user == null)
+            {
+                throw new UserNotFoundException();
+            }
+
+            if (!PasswordUtil.VerifyPassword(loginUserDto.Password, user.Password))
+            {
+                throw new UnauthorizedException("Invalid credentials, please try again");
+            }
+
+            return user;
+
+        }
 
         public async Task<User> RegisterUser(RegisterUserDto registerUserDto)
         {
             if (await EmailExists(registerUserDto.Email))
             {
-                throw new EmailExistsException(registerUserDto.Email);
+                throw new EmailExistsException();
             }
+
+            var hashedPassword = PasswordUtil.HashPassword(registerUserDto.Password);
 
             var result = await db.Users.AddAsync(new User
             {
                 FirstName = registerUserDto.FirstName,
                 LastName = registerUserDto.LastName,
                 Email = registerUserDto.Email,
-                Password = registerUserDto.Password
+                Password = hashedPassword
             }
          );
             await db.SaveChangesAsync();
@@ -57,10 +83,29 @@ namespace SpaceTechList.Api.Repositories
             return result.Entity;
         }
 
-        //public Task<User> UpdateUser(UpdateUserDto updateUserDto)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public async Task<User> UpdateUser(UpdateUserDto updateUserDto, int userId)
+        {
+            var user = await db.Users.FindAsync(userId);
+
+            if (user == null)
+            {
+                throw new UserNotFoundException();
+            }
+
+            if (user.Email != updateUserDto.Email &&
+                await EmailExists(updateUserDto.Email))
+            {
+                throw new EmailExistsException();
+            }
+
+            mapper.Map(updateUserDto, user);
+
+            db.Users.Update(user);
+
+            await db.SaveChangesAsync();
+
+            return user;
+        }
     }
 }
 
