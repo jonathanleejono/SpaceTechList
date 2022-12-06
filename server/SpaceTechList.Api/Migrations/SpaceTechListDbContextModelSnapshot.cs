@@ -64,7 +64,7 @@ namespace SpaceTechList.Api.Migrations
                             Email = "bob@gmail.com",
                             FirstName = "Bob",
                             LastName = "Builder",
-                            Password = "hello123",
+                            Password = "4668FCB9085C2B880719918B3BEF37D487A644C44EC157BBA42A2057B10CB61A6AD477C07BAF8507C1B7643EEC97D578A7FB1949FE6F8E451AFEEA525B0F1D80",
                             UpdatedDate = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
@@ -74,7 +74,7 @@ namespace SpaceTechList.Api.Migrations
                             Email = "jim@gmail.com",
                             FirstName = "Jim",
                             LastName = "John",
-                            Password = "hello123",
+                            Password = "CC0D7490EA220E53B6ACB724CFD841CB6693AF039E5E946191207BC6FCEC46E0D867F3B7161C5639DA944B1B8BFF138FFA5042506823340474882C6B729B0955",
                             UpdatedDate = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         });
                 });
