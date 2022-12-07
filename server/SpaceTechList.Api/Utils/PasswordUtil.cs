@@ -16,8 +16,6 @@ namespace SpaceTechList.Api.Utils
 
         public static string HashPassword(string password)
         {
-            byte[] salt = RandomNumberGenerator.GetBytes(keySize);
-
             var hash = Rfc2898DeriveBytes.Pbkdf2(
                 Encoding.UTF8.GetBytes(password),
                 salt,
@@ -30,7 +28,6 @@ namespace SpaceTechList.Api.Utils
 
         public static bool VerifyPassword(string password, string hashedPassword)
         {
-
             var hashToCompare = Rfc2898DeriveBytes.Pbkdf2(password, salt, iterations, hashAlgorithm, keySize);
 
             return hashToCompare.SequenceEqual(Convert.FromHexString(hashedPassword));

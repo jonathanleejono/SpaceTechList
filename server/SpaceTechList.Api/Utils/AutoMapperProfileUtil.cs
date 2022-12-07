@@ -9,7 +9,6 @@ namespace SpaceTechList.Api.Utils
     {
         public AutoMapperProfileUtil()
         {
-
             CreateMap<UpdateUserDto, User>()
                 .ForAllMembers(x => x.Condition(
                     (src, dest, prop) =>

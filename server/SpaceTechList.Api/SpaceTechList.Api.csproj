@@ -42,6 +42,8 @@
     <None Remove="Attributes\" />
     <None Remove="AutoMapper" />
     <None Remove="AutoMapper.Extensions.Microsoft.DependencyInjection" />
+    <None Remove="Dtos\User\" />
+    <None Remove="Dtos\SpaceTech\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -56,5 +58,7 @@
     <Folder Include="Validation\" />
     <Folder Include="Utils\" />
     <Folder Include="Attributes\" />
+    <Folder Include="Dtos\User\" />
+    <Folder Include="Dtos\SpaceTech\" />
   </ItemGroup>
 </Project>

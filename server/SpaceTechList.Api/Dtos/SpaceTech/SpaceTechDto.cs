@@ -12,6 +12,7 @@ namespace SpaceTechList.Api.Dtos
         public string Topic { get; set; }
 
         public string MediaUrl { get; set; }
+
     }
 }
 

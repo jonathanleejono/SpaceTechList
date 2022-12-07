@@ -38,6 +38,8 @@ services.AddValidatorsFromAssemblyContaining<UserValidator.RegisterUserValidator
 
 services.AddValidatorsFromAssemblyContaining<UserValidator.UpdateUserValidator>();
 
+services.AddValidatorsFromAssemblyContaining<SpaceTechValidator.SpaceTechDtoValidator>();
+
 services.AddMvc(options => { options.Filters.Add(typeof(ValidateModelStateMiddleware)); });
 
 services.AddAutoMapper(typeof(Program));
@@ -45,6 +47,8 @@ services.AddAutoMapper(typeof(Program));
 services.AddScoped<IJwtUtil, JwtUtil>();
 
 services.AddScoped<IUserRepository, UserRepository>();
+
+services.AddScoped<ISpaceTechRepository, SpaceTechRepository>();
 
 services.AddControllers();
 

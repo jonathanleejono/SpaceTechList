@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SpaceTechList.Api.Db;
 
@@ -11,9 +12,11 @@ using SpaceTechList.Api.Db;
 namespace SpaceTechList.Api.Migrations
 {
     [DbContext(typeof(SpaceTechListDbContext))]
-    partial class SpaceTechListDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221207193746_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

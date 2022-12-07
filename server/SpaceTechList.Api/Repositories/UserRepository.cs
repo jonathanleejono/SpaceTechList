@@ -54,7 +54,7 @@ namespace SpaceTechList.Api.Repositories
 
             if (!PasswordUtil.VerifyPassword(loginUserDto.Password, user.Password))
             {
-                throw new UnauthorizedException("Invalid credentials, please try again");
+                throw new UnauthorizedException("Incorrect credentials, please try again");
             }
 
             return user;
@@ -78,6 +78,7 @@ namespace SpaceTechList.Api.Repositories
                 Password = hashedPassword
             }
          );
+
             await db.SaveChangesAsync();
 
             return result.Entity;

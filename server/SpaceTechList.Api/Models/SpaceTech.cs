@@ -1,4 +1,7 @@
-﻿namespace SpaceTechList.Api.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Reflection.Metadata;
+
+namespace SpaceTechList.Api.Models;
 
 public class SpaceTech
 {
@@ -12,9 +15,12 @@ public class SpaceTech
 
     public string Topic { get; set; }
 
-
-    // valid url
     public string MediaUrl { get; set; }
+
+    public int UserId { get; set; }
+
+    [ForeignKey("UserId")]
+    public User User { get; set; }
 
     public DateTimeOffset CreatedDate { get; set; }
 

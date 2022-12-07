@@ -5,13 +5,11 @@ namespace SpaceTechList.Api.Interfaces
 {
 	public interface ISpaceTechRepository
 	{
-        Task<IEnumerable<SpaceTechDto>> GetSpaceTech(string apiUrl);
+        Task<SpaceTech> AddSpaceTechToSavedList(SpaceTechDto spaceTechDto, int userId);
 
-        Task<SpaceTechDto> AddSpaceTechToSavedList(SpaceTechDto spaceTechDto);
+        Task<IEnumerable<SpaceTech>> GetAllSpaceTechFromSavedList(int userId);
 
-        Task<IEnumerable<SpaceTech>> GetSpaceTechFromSavedList();
-
-        Task<string> DeleteSpaceTechFromSavedList(int spaceTechId);
+        Task<string> DeleteSpaceTechFromSavedList(int spaceTechId, int userId);
     }
 }
 
