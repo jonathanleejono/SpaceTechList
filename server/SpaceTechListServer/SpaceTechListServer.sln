@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 25.0.1704.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceTechList.Api", "SpaceTechList.Api\SpaceTechList.Api.csproj", "{D420294B-99AD-489F-A633-D9009F1D4F20}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceTechList.Api.Tests", "SpaceTechList.Api.Tests\SpaceTechList.Api.Tests.csproj", "{1B1C5249-03BA-4178-942C-A61BCE62F7BE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D420294B-99AD-489F-A633-D9009F1D4F20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D420294B-99AD-489F-A633-D9009F1D4F20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D420294B-99AD-489F-A633-D9009F1D4F20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D420294B-99AD-489F-A633-D9009F1D4F20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B1C5249-03BA-4178-942C-A61BCE62F7BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B1C5249-03BA-4178-942C-A61BCE62F7BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B1C5249-03BA-4178-942C-A61BCE62F7BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B1C5249-03BA-4178-942C-A61BCE62F7BE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {76E2252D-EFCC-4493-8213-55767827B889}
+	EndGlobalSection
+EndGlobal
