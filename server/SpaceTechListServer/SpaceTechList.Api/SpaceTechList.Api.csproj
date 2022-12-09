@@ -29,4 +29,7 @@
     <None Remove="FluentValidation.AspNetCore" />
     <None Remove="System.IdentityModel.Tokens.Jwt" />
   </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="SpaceTechList.Api.Tests" />
+  </ItemGroup>
 </Project>
