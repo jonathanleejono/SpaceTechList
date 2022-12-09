@@ -8,7 +8,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace SpaceTechList.Api.Tests
 {
-	class SpaceTechListApplication : WebApplicationFactory<Program>
+	class SpaceTechListTestApplication : WebApplicationFactory<Program>
     {
 
         protected override IHost CreateHost(IHostBuilder builder)

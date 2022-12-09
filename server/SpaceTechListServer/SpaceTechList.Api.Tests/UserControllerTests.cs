@@ -15,7 +15,7 @@ namespace SpaceTechList.Api.Tests;
 
 public class UserControllerTests
 {
-    private readonly WebApplicationFactory<Program> factory = new SpaceTechListApplication();
+    private readonly WebApplicationFactory<Program> factory = new SpaceTechListTestApplication();
 
     private HttpClient httpClient;
 
