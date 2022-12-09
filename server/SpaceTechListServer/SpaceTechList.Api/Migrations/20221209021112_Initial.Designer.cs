@@ -12,7 +12,7 @@ using SpaceTechList.Api.Db;
 namespace SpaceTechList.Api.Migrations
 {
     [DbContext(typeof(SpaceTechListDbContext))]
-    [Migration("20221207193746_Initial")]
+    [Migration("20221209021112_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -42,11 +42,11 @@ namespace SpaceTechList.Api.Migrations
 
                     b.Property<string>("IdCode")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("MediaUrl")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -64,7 +64,7 @@ namespace SpaceTechList.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MediaUrl")
+                    b.HasIndex("IdCode")
                         .IsUnique();
 
                     b.HasIndex("UserId");
@@ -131,7 +131,7 @@ namespace SpaceTechList.Api.Migrations
                             Email = "bob@gmail.com",
                             FirstName = "Bob",
                             LastName = "Builder",
-                            Password = "99492D19155FFE75BD39F05EC3938B5C62BD1902EF757BF103B880814E45D1913F24499ED4A575AE87FAEB6855B6DBD7452A76B207AB52A62E9C63402F7F8B2E",
+                            Password = "$2a$11$Yg6gFX5Rm.cO8gj1fpEtMOQN7FVgIL0UJdnLAQeORSz8c60QpVPqa",
                             UpdatedDate = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
@@ -141,7 +141,7 @@ namespace SpaceTechList.Api.Migrations
                             Email = "jim@gmail.com",
                             FirstName = "Jim",
                             LastName = "John",
-                            Password = "99492D19155FFE75BD39F05EC3938B5C62BD1902EF757BF103B880814E45D1913F24499ED4A575AE87FAEB6855B6DBD7452A76B207AB52A62E9C63402F7F8B2E",
+                            Password = "$2a$11$Vw734/8jJ3U9cjqrVPQ9begitfSIcaZM6Bii9bRiE43ZZOFGZQ.a.",
                             UpdatedDate = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         });
                 });
