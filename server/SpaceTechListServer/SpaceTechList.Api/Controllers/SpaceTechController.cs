@@ -97,7 +97,7 @@ public class SpaceTechController : ControllerBase
     }
 
     [HttpDelete("{spaceTechId:int}")]
-    public async Task<ActionResult<OkObjectResult>> DeleteSpaceTechFromSavedList(int spaceTechId)
+    public async Task<ActionResult<object>> DeleteSpaceTechFromSavedList(int spaceTechId)
     {
         Request.Cookies.TryGetValue(Cookies.cookieName, out var accessTokenCookie);
 
@@ -106,10 +106,10 @@ public class SpaceTechController : ControllerBase
         var deleteSpaceTechResponse = await spaceTechRepository
             .DeleteSpaceTechFromSavedList(spaceTechId, userId);
 
-        return Ok(new JsonResult(new
+        return Ok(new
         {
             message = deleteSpaceTechResponse
-        }));
+        });
     }
 }
 

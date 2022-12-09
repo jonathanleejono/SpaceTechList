@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection.Metadata;
+using System.Text.Json.Serialization;
 
 namespace SpaceTechList.Api.Models;
 
@@ -19,6 +20,7 @@ public class SpaceTech
 
     public int UserId { get; set; }
 
+    [JsonIgnore]
     [ForeignKey("UserId")]
     public User User { get; set; }
 

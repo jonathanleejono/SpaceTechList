@@ -19,15 +19,16 @@ namespace SpaceTechList.Api.Repositories
             this.db = db;
         }
 
-        private async Task<bool> SpaceTechExists(string idCode)
+        private async Task<bool> SpaceTechIsSaved(string idCode, int userId)
         {
-            return await db.SpaceTech.AnyAsync(spaceTech => spaceTech.IdCode == idCode);
+            return await db.SpaceTech.AnyAsync(spaceTech => spaceTech.IdCode == idCode
+                                                && spaceTech.UserId == userId);
 
         }
 
         public async Task<SpaceTech> AddSpaceTechToSavedList(SpaceTechDto spaceTechDto, int userId)
         {
-            if (await SpaceTechExists(spaceTechDto.IdCode))
+            if (await SpaceTechIsSaved(spaceTechDto.IdCode, userId))
             {
                 throw new BadHttpRequestException("Duplicate error, space tech already saved");
             }
@@ -82,6 +83,7 @@ namespace SpaceTechList.Api.Repositories
                               Description = spaceTech.Description,
                               Topic = spaceTech.Topic,
                               MediaUrl = spaceTech.MediaUrl,
+                              UserId = spaceTech.UserId,
                               CreatedDate = spaceTech.CreatedDate,
                               UpdatedDate = spaceTech.UpdatedDate
 
