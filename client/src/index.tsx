@@ -1,16 +1,15 @@
-import { ChakraProvider } from "@chakra-ui/react";
 import { adminRoute, authRoute } from "constants/routes";
+import AppProviders from "providers/appProviders";
 import React from "react";
 import ReactDOM from "react-dom";
 import { HashRouter, Redirect, Route, Switch } from "react-router-dom";
 import "./assets/css/App.css";
 import AdminLayout from "./layouts/admin";
 import AuthLayout from "./layouts/auth";
-import theme from "./theme/theme";
 
 ReactDOM.render(
-  <ChakraProvider theme={theme}>
-    <React.StrictMode>
+  <React.StrictMode>
+    <AppProviders>
       <HashRouter>
         <Switch>
           <Route path={authRoute} component={AuthLayout} />
@@ -18,7 +17,7 @@ ReactDOM.render(
           <Redirect from="/" to={adminRoute} />
         </Switch>
       </HashRouter>
-    </React.StrictMode>
-  </ChakraProvider>,
+    </AppProviders>
+  </React.StrictMode>,
   document.getElementById("root")
 );

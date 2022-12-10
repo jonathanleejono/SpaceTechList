@@ -1,19 +1,15 @@
-// Chakra imports
 import { Box, Flex, Icon, Text } from "@chakra-ui/react";
 import FixedPlugin from "components/fixedPlugin/FixedPlugin";
-import PropTypes from "prop-types";
-// Custom components
-import { NavLink } from "react-router-dom";
-// Assets
 import { adminRoute } from "constants/routes";
+import PropTypes from "prop-types";
 import { FaChevronLeft } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
 
 function AuthIllustration(props: {
   children: JSX.Element | string;
   illustrationBackground: string;
 }) {
   const { children, illustrationBackground } = props;
-  // Chakra color mode
   return (
     <Flex position="relative" h="max-content">
       <Flex
@@ -83,7 +79,6 @@ function AuthIllustration(props: {
     </Flex>
   );
 }
-// PROPS
 
 AuthIllustration.propTypes = {
   illustrationBackground: PropTypes.string,

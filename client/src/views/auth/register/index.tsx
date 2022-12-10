@@ -20,9 +20,6 @@
 
 */
 
-import React from "react";
-import { NavLink } from "react-router-dom";
-// Chakra imports
 import {
   Box,
   Button,
@@ -37,25 +34,66 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-// Custom components
+import illustration from "assets/img/auth/auth2.jpg";
+import { authRoute, loginRoute } from "constants/routes";
 import DefaultAuth from "layouts/auth/Default";
-// Assets
-import illustration from "assets/img/auth/auth.png";
-import { authRoute, registerRoute } from "constants/routes";
+import { useState } from "react";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEyeCloseLine } from "react-icons/ri";
+import { NavLink } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useAppDispatch } from "state/hooks";
+import { registerUser } from "state/user/userThunk";
 
 export default function Register() {
-  // Chakra color mode
+  const dispatch = useAppDispatch();
+
   const textColor = useColorModeValue("navy.700", "white");
   const textColorSecondary = "gray.400";
   const textColorDetails = useColorModeValue("navy.700", "secondaryGray.600");
   const textColorBrand = useColorModeValue("brand.500", "white");
   const brandStars = useColorModeValue("brand.500", "brand.400");
 
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleShowPassword = () => setShowPassword(!showPassword);
+
+  // const resolveWithSomeData = new Promise((resolve) =>
+  //   setTimeout(() => resolve("world"), 3000)
+  // );
+
+  // const handleTest = async () => {
+  //   const resultAction = await dispatch(registerUser)};
+  const currentUser = { firstName, lastName, email, password };
+
+  const handleRegisterUser = async () => {
+    toast.promise(dispatch(registerUser(currentUser)), {
+      pending: {
+        render() {
+          return "I'm loading";
+        },
+        icon: false,
+      },
+      success: {
+        render({ data }) {
+          return `Hello ${data}`;
+        },
+        // other options
+        icon: "🟢",
+      },
+      error: {
+        render({ data }) {
+          // When the promise reject, data will contains the error
+          console.log(data);
+          return "yo";
+        },
+      },
+    });
+  };
 
   return (
     <DefaultAuth illustrationBackground={illustration} image={illustration}>
@@ -83,7 +121,7 @@ export default function Register() {
             fontWeight="400"
             fontSize="md"
           >
-            Enter your email and password to register!
+            Welcome to SpaceTechList!
           </Text>
         </Box>
         <Flex
@@ -106,6 +144,54 @@ export default function Register() {
               color={textColor}
               mb="8px"
             >
+              First Name<Text color={brandStars}>*</Text>
+            </FormLabel>
+            <Input
+              isRequired={true}
+              variant="auth"
+              fontSize="sm"
+              ms={{ base: "0px", md: "0px" }}
+              placeholder="mail@simmmple.com"
+              mb="24px"
+              fontWeight="500"
+              size="lg"
+              onChange={(event) => {
+                const { value } = event.target;
+                setFirstName(value);
+              }}
+            />
+            <FormLabel
+              display="flex"
+              ms="4px"
+              fontSize="sm"
+              fontWeight="500"
+              color={textColor}
+              mb="8px"
+            >
+              Last Name<Text color={brandStars}>*</Text>
+            </FormLabel>
+            <Input
+              isRequired={true}
+              variant="auth"
+              fontSize="sm"
+              ms={{ base: "0px", md: "0px" }}
+              placeholder="mail@simmmple.com"
+              mb="24px"
+              fontWeight="500"
+              size="lg"
+              onChange={(event) => {
+                const { value } = event.target;
+                setLastName(value);
+              }}
+            />
+            <FormLabel
+              display="flex"
+              ms="4px"
+              fontSize="sm"
+              fontWeight="500"
+              color={textColor}
+              mb="8px"
+            >
               Email<Text color={brandStars}>*</Text>
             </FormLabel>
             <Input
@@ -118,6 +204,10 @@ export default function Register() {
               mb="24px"
               fontWeight="500"
               size="lg"
+              onChange={(event) => {
+                const { value } = event.target;
+                setEmail(value);
+              }}
             />
             <FormLabel
               ms="4px"
@@ -137,6 +227,10 @@ export default function Register() {
                 size="lg"
                 type={showPassword ? "text" : "password"}
                 variant="auth"
+                onChange={(event) => {
+                  const { value } = event.target;
+                  setPassword(value);
+                }}
               />
               <InputRightElement display="flex" alignItems="center" mt="4px">
                 <Icon
@@ -154,8 +248,9 @@ export default function Register() {
               w="100%"
               h="50"
               mb="24px"
+              onClick={handleRegisterUser}
             >
-              Sign In
+              Sign Up
             </Button>
           </FormControl>
           <Flex
@@ -166,15 +261,15 @@ export default function Register() {
             mt="0px"
           >
             <Text color={textColorDetails} fontWeight="400" fontSize="14px">
-              Not registered yet?
-              <NavLink to={`${authRoute}${registerRoute}`}>
+              Already registered?
+              <NavLink to={`${authRoute}${loginRoute}`}>
                 <Text
                   color={textColorBrand}
                   as="span"
                   ms="5px"
                   fontWeight="500"
                 >
-                  Create an Account
+                  Login
                 </Text>
               </NavLink>
             </Text>

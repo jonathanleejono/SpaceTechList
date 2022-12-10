@@ -20,9 +20,6 @@
 
 */
 
-import React from "react";
-import { NavLink } from "react-router-dom";
-// Chakra imports
 import {
   Box,
   Button,
@@ -37,16 +34,15 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-// Custom components
-import DefaultAuth from "layouts/auth/Default";
-// Assets
-import illustration from "assets/img/auth/auth.png";
+import illustration from "assets/img/auth/auth2.jpg";
 import { authRoute, registerRoute } from "constants/routes";
+import DefaultAuth from "layouts/auth/Default";
+import React from "react";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEyeCloseLine } from "react-icons/ri";
+import { NavLink } from "react-router-dom";
 
 function SignIn() {
-  // Chakra color mode
   const textColor = useColorModeValue("navy.700", "white");
   const textColorSecondary = "gray.400";
   const textColorDetails = useColorModeValue("navy.700", "secondaryGray.600");
@@ -83,7 +79,7 @@ function SignIn() {
             fontWeight="400"
             fontSize="md"
           >
-            Enter your email and password to sign in!
+            Welcome back!
           </Text>
         </Box>
         <Flex
