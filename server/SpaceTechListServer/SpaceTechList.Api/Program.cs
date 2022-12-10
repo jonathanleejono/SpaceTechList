@@ -23,6 +23,20 @@ var services = builder.Services;
 
 var configuration = builder.Configuration;
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+services.AddCors(options =>
+ {
+     options.AddPolicy(name: MyAllowSpecificOrigins,
+                       policy =>
+                       {
+                           policy.WithOrigins("http://localhost:3000")
+                                 .AllowAnyHeader()
+                                 .AllowAnyMethod()
+                                 .AllowCredentials();
+                       });
+ });
+
 services.AddTransient<CustomExceptionMiddleware>();
 
 services.Configure<ApiBehaviorOptions>(options =>
@@ -67,10 +81,7 @@ services.AddDbContextPool<SpaceTechListDbContext>(options =>
 
 var app = builder.Build();
 
-app.UseCors(policy =>
-    policy.WithOrigins("http://localhost:7060")
-    .AllowAnyMethod()
-);
+app.UseCors(MyAllowSpecificOrigins);
 
 app.UseHttpLogging();
 
@@ -89,7 +100,7 @@ app.UseStatusCodePages(new StatusCodePagesOptions()
     {
         if (ctx.HttpContext.Response.StatusCode == 404)
         {
-            await ctx.HttpContext.Response.WriteAsJsonAsync(new {message = "Route not found"});
+            await ctx.HttpContext.Response.WriteAsJsonAsync(new { message = "Route not found" });
         }
 
     }
@@ -100,7 +111,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.MapGet("/ping", () => new {ping = "pong!"});
+app.MapGet("/ping", () => new { ping = "pong!" });
 
 app.MapControllers();
 
