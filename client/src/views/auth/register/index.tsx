@@ -35,18 +35,20 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import illustration from "assets/img/auth/auth2.jpg";
-import { authRoute, loginRoute } from "constants/routes";
+import { adminRoute, authRoute, loginRoute, mainRoute } from "constants/routes";
 import DefaultAuth from "layouts/auth/Default";
+import { showToast } from "notifications/toast";
 import { useState } from "react";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEyeCloseLine } from "react-icons/ri";
-import { NavLink } from "react-router-dom";
-import { toast } from "react-toastify";
+import { NavLink, useHistory } from "react-router-dom";
 import { useAppDispatch } from "state/hooks";
 import { registerUser } from "state/user/userThunk";
+import { addIsUserAuthenticatedToLocalStorage } from "utils/localStorage";
 
 export default function Register() {
   const dispatch = useAppDispatch();
+  const history = useHistory();
 
   const textColor = useColorModeValue("navy.700", "white");
   const textColorSecondary = "gray.400";
@@ -62,37 +64,23 @@ export default function Register() {
 
   const handleShowPassword = () => setShowPassword(!showPassword);
 
-  // const resolveWithSomeData = new Promise((resolve) =>
-  //   setTimeout(() => resolve("world"), 3000)
-  // );
-
-  // const handleTest = async () => {
-  //   const resultAction = await dispatch(registerUser)};
   const currentUser = { firstName, lastName, email, password };
 
   const handleRegisterUser = async () => {
-    toast.promise(dispatch(registerUser(currentUser)), {
-      pending: {
-        render() {
-          return "I'm loading";
-        },
-        icon: false,
-      },
-      success: {
-        render({ data }) {
-          return `Hello ${data}`;
-        },
-        // other options
-        icon: "🟢",
-      },
-      error: {
-        render({ data }) {
-          // When the promise reject, data will contains the error
-          console.log(data);
-          return "yo";
-        },
-      },
-    });
+    const resultAction = await dispatch(registerUser(currentUser));
+
+    const resp = showToast(
+      resultAction,
+      registerUser,
+      `Hello ${firstName}!`,
+      "Error signing up"
+    );
+
+    if (resp.status === "success") {
+      addIsUserAuthenticatedToLocalStorage();
+      history.push(`${adminRoute}/${mainRoute}`);
+      return;
+    }
   };
 
   return (
@@ -147,6 +135,7 @@ export default function Register() {
               First Name<Text color={brandStars}>*</Text>
             </FormLabel>
             <Input
+              id="firstName"
               isRequired={true}
               variant="auth"
               fontSize="sm"
@@ -171,6 +160,7 @@ export default function Register() {
               Last Name<Text color={brandStars}>*</Text>
             </FormLabel>
             <Input
+              id="lastName"
               isRequired={true}
               variant="auth"
               fontSize="sm"
@@ -195,6 +185,7 @@ export default function Register() {
               Email<Text color={brandStars}>*</Text>
             </FormLabel>
             <Input
+              id="email"
               isRequired={true}
               variant="auth"
               fontSize="sm"
@@ -220,6 +211,7 @@ export default function Register() {
             </FormLabel>
             <InputGroup size="md">
               <Input
+                id="password"
                 isRequired={true}
                 fontSize="sm"
                 placeholder="Min. 8 characters"

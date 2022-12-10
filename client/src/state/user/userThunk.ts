@@ -19,6 +19,7 @@ import { resetSpaceTechState } from "state/spaceTech/spaceTechSlice";
 import { resetUserState } from "state/user/userSlice";
 import customFetch from "utils/axios";
 import { checkPermissions } from "utils/checkPermissions";
+import { removeIsUserAuthenticatedFromLocalStorage } from "utils/localStorage";
 
 const registerUser = createAsyncThunk<
   AuthUserResponse,
@@ -30,8 +31,8 @@ const registerUser = createAsyncThunk<
   try {
     const resp = await customFetch.post(`${registerUserUrl}`, newUser);
     return resp.data;
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error);
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue(error.response.data);
   }
 });
 
@@ -45,8 +46,8 @@ const loginUser = createAsyncThunk<
   try {
     const resp = await customFetch.post(`${loginUserUrl}`, loginUser);
     return resp.data;
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error);
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue(error.response.data);
   }
 });
 
@@ -60,9 +61,9 @@ const updateUser = createAsyncThunk<
   try {
     const resp = await customFetch.patch(`${authUserUrl}`, updatingUser);
     return resp.data;
-  } catch (error) {
+  } catch (error: any) {
     checkPermissions(error, thunkAPI);
-    return thunkAPI.rejectWithValue(error);
+    return thunkAPI.rejectWithValue(error.response.data);
   }
 });
 
@@ -76,9 +77,9 @@ const getUser = createAsyncThunk<
   try {
     const resp = await customFetch.get(`${authUserUrl}`);
     return resp.data;
-  } catch (error) {
+  } catch (error: any) {
     checkPermissions(error, thunkAPI);
-    return thunkAPI.rejectWithValue(error);
+    return thunkAPI.rejectWithValue(error.response.data);
   }
 });
 
@@ -91,6 +92,7 @@ const clearStore = createAsyncThunk<
   }
 >(`${userSliceName}${clearStoreActionType}`, async (_, thunkAPI) => {
   try {
+    removeIsUserAuthenticatedFromLocalStorage();
     thunkAPI.dispatch(resetUserState());
     thunkAPI.dispatch(resetSpaceTechState());
     return Promise.resolve();

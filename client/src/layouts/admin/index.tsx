@@ -8,10 +8,13 @@ import { SidebarContext } from "contexts/SidebarContext";
 import { useState } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import routes from "routes";
+import { useAppSelector } from "state/hooks";
 
 // Custom Chakra theme
 export default function Dashboard(props: { [x: string]: any }) {
   const { ...rest } = props;
+
+  const { isUserAuthenticated } = useAppSelector((store) => store.user);
 
   // states and functions
   const [fixed] = useState(false);
@@ -58,7 +61,7 @@ export default function Dashboard(props: { [x: string]: any }) {
 
   const getRoutes = (routes: RoutesType[]): any =>
     routes.map((route: RoutesType, key: any) => {
-      if (route.layout === adminRoute) {
+      if (route.layout === adminRoute && isUserAuthenticated) {
         return (
           <Route
             path={route.layout + route.path}

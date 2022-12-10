@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import apiSlice from "state/spaceTech/spaceTechSlice";
+import spaceTechSlice from "state/spaceTech/spaceTechSlice";
 import userSlice from "state/user/userSlice";
 
 export const store = configureStore({
   reducer: {
     user: userSlice,
-    api: apiSlice,
+    spaceTech: spaceTechSlice,
   },
 });
 

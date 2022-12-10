@@ -35,23 +35,56 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import illustration from "assets/img/auth/auth2.jpg";
-import { authRoute, registerRoute } from "constants/routes";
+import {
+  adminRoute,
+  authRoute,
+  mainRoute,
+  registerRoute,
+} from "constants/routes";
 import DefaultAuth from "layouts/auth/Default";
-import React from "react";
+import { showToast } from "notifications/toast";
+import React, { useState } from "react";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEyeCloseLine } from "react-icons/ri";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
+import { useAppDispatch } from "state/hooks";
+import { loginUser } from "state/user/userThunk";
+import { addIsUserAuthenticatedToLocalStorage } from "utils/localStorage";
 
 function SignIn() {
+  const dispatch = useAppDispatch();
+  const history = useHistory();
+
   const textColor = useColorModeValue("navy.700", "white");
   const textColorSecondary = "gray.400";
   const textColorDetails = useColorModeValue("navy.700", "secondaryGray.600");
   const textColorBrand = useColorModeValue("brand.500", "white");
   const brandStars = useColorModeValue("brand.500", "brand.400");
 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleShowPassword = () => setShowPassword(!showPassword);
+
+  const currentUser = { email, password };
+
+  const handleLoginUser = async () => {
+    const resultAction = await dispatch(loginUser(currentUser));
+
+    const resp = showToast(
+      resultAction,
+      loginUser,
+      "Welcome back!",
+      "Error logging in"
+    );
+
+    if (resp.status === "success") {
+      addIsUserAuthenticatedToLocalStorage();
+      history.push(`${adminRoute}/${mainRoute}`);
+      return;
+    }
+  };
 
   return (
     <DefaultAuth illustrationBackground={illustration} image={illustration}>
@@ -105,6 +138,7 @@ function SignIn() {
               Email<Text color={brandStars}>*</Text>
             </FormLabel>
             <Input
+              id="email"
               isRequired={true}
               variant="auth"
               fontSize="sm"
@@ -114,6 +148,10 @@ function SignIn() {
               mb="24px"
               fontWeight="500"
               size="lg"
+              onChange={(event) => {
+                const { value } = event.target;
+                setEmail(value);
+              }}
             />
             <FormLabel
               ms="4px"
@@ -126,6 +164,7 @@ function SignIn() {
             </FormLabel>
             <InputGroup size="md">
               <Input
+                id="password"
                 isRequired={true}
                 fontSize="sm"
                 placeholder="Min. 8 characters"
@@ -133,6 +172,10 @@ function SignIn() {
                 size="lg"
                 type={showPassword ? "text" : "password"}
                 variant="auth"
+                onChange={(event) => {
+                  const { value } = event.target;
+                  setPassword(value);
+                }}
               />
               <InputRightElement display="flex" alignItems="center" mt="4px">
                 <Icon
@@ -150,6 +193,7 @@ function SignIn() {
               w="100%"
               h="50"
               mb="24px"
+              onClick={handleLoginUser}
             >
               Sign In
             </Button>

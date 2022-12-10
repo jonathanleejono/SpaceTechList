@@ -1,4 +1,3 @@
-import { unauthorizedMsg } from "constants/messages";
 import { clearStore } from "state/user/userThunk";
 
 //eslint-disable-next-line
@@ -8,6 +7,8 @@ export const checkPermissions = (error: any, thunkAPI: any) => {
   if (errorCode.toString()[0] != "2") {
     thunkAPI.dispatch(clearStore());
 
-    return thunkAPI.rejectWithValue(unauthorizedMsg);
+    return thunkAPI.rejectWithValue({
+      message: "Session Expired! Logging out...",
+    });
   }
 };

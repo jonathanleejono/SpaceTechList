@@ -7,15 +7,18 @@ import {
   registerUser,
   updateUser,
 } from "state/user/userThunk";
+import { getIsUserAuthenticatedFromLocalStorage } from "utils/localStorage";
 
 interface UsersState {
   isLoading: boolean;
   user: AuthUserResponse;
+  isUserAuthenticated: boolean;
 }
 
 const initialState: UsersState = {
   isLoading: false,
   user: { id: 0, firstName: "", lastName: "", email: "" },
+  isUserAuthenticated: getIsUserAuthenticatedFromLocalStorage(),
 };
 
 const userSlice = createSlice({
@@ -33,18 +36,22 @@ const userSlice = createSlice({
       builder.addCase(registerUser.fulfilled, (state, { payload }) => {
         state.isLoading = false;
         state.user = payload;
+        state.isUserAuthenticated = true;
       }),
       builder.addCase(registerUser.rejected, (state) => {
         state.isLoading = false;
+        state.isUserAuthenticated = false;
       });
     builder.addCase(loginUser.pending, (state) => {
       state.isLoading = true;
     }),
       builder.addCase(loginUser.fulfilled, (state, { payload }) => {
         state.user = payload;
+        state.isUserAuthenticated = true;
       }),
       builder.addCase(loginUser.rejected, (state) => {
         state.isLoading = false;
+        state.isUserAuthenticated = false;
       });
     builder.addCase(updateUser.pending, (state) => {
       state.isLoading = true;
@@ -55,6 +62,7 @@ const userSlice = createSlice({
       }),
       builder.addCase(updateUser.rejected, (state) => {
         state.isLoading = false;
+        state.isUserAuthenticated = false;
       });
     builder.addCase(getUser.pending, (state) => {
       state.isLoading = true;
@@ -62,9 +70,11 @@ const userSlice = createSlice({
       builder.addCase(getUser.fulfilled, (state, { payload }) => {
         state.isLoading = false;
         state.user = payload;
+        state.isUserAuthenticated = true;
       }),
       builder.addCase(getUser.rejected, (state) => {
         state.isLoading = false;
+        state.isUserAuthenticated = false;
       });
   },
 });
