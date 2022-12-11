@@ -118,7 +118,7 @@ export default function Profile() {
             <Input
               id="email"
               isRequired={true}
-              variant="authTertiary"
+              variant="auth"
               fontSize="sm"
               ms={{ base: "0px", md: "0px" }}
               type="email"
@@ -145,7 +145,7 @@ export default function Profile() {
             <Input
               id="firstName"
               isRequired={true}
-              variant="authTertiary"
+              variant="auth"
               fontSize="sm"
               ms={{ base: "0px", md: "0px" }}
               placeholder="First Name"
@@ -171,7 +171,7 @@ export default function Profile() {
             <Input
               id="lastName"
               isRequired={true}
-              variant="authTertiary"
+              variant="auth"
               fontSize="sm"
               ms={{ base: "0px", md: "0px" }}
               placeholder="Last Name"

@@ -11,7 +11,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { capitalCase } from "change-case";
-import Card from "components/card/Card";
+import Card from "components/card/CardBase";
 import SavedListTableMenu from "components/menu/MainMenu";
 import { showToast } from "notifications/toast";
 import { useMemo, useState } from "react";

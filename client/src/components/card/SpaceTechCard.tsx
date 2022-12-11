@@ -7,7 +7,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { capitalCase } from "change-case";
-import Card from "components/card/Card";
+import Card from "components/card/CardBase";
 import { showToast } from "notifications/toast";
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "state/hooks";

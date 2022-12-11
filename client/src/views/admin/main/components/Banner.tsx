@@ -2,7 +2,7 @@
 import { Button, Flex, Text } from "@chakra-ui/react";
 
 // Assets
-import banner from "assets/img/nfts/NftBanner1.png";
+import banner from "assets/img/MainBanner.png";
 
 export default function Banner() {
   // Chakra Color Mode

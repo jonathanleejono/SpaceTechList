@@ -31,7 +31,7 @@ import {
 } from "@chakra-ui/react";
 
 // Custom components
-import NFT from "components/card/SpaceTechCard";
+import SpaceTechCard from "components/card/SpaceTechCard";
 import Banner from "views/admin/main/components/Banner";
 
 // Assets
@@ -105,7 +105,7 @@ export default function Main() {
             <SimpleGrid columns={{ base: 1, md: 3 }} gap="20px">
               {spaceTechFromPublicApi?.map((spaceTech) => {
                 return (
-                  <NFT
+                  <SpaceTechCard
                     key={spaceTech.idCode}
                     idCode={spaceTech.idCode}
                     title={spaceTech.title}
