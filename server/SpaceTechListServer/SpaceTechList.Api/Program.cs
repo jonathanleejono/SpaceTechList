@@ -30,7 +30,7 @@ services.AddCors(options =>
      options.AddPolicy(name: MyAllowSpecificOrigins,
                        policy =>
                        {
-                           policy.WithOrigins("http://localhost:3000")
+                           policy.WithOrigins(configuration["CorsOrigin"])
                                  .AllowAnyHeader()
                                  .AllowAnyMethod()
                                  .AllowCredentials();
@@ -69,9 +69,12 @@ services.AddEndpointsApiExplorer();
 
 services.AddSwaggerGen();
 
-var dbConnectionString = String.Format("{0};Password={1}",
-    configuration.GetConnectionString("SpaceTechListConnection"),
-    configuration["DbPassword:MSSQL"]);
+var dbConnectionString = configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING");
+
+if (!builder.Environment.IsProduction())
+{
+    dbConnectionString += ";Password=" + configuration["DbPassword:MSSQL"];
+}
 
 services.AddDbContextPool<SpaceTechListDbContext>(options =>
     options.UseSqlServer(dbConnectionString)
