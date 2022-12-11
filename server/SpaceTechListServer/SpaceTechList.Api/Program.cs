@@ -52,8 +52,6 @@ services.AddValidatorsFromAssemblyContaining<UserValidator.RegisterUserValidator
 
 services.AddValidatorsFromAssemblyContaining<UserValidator.UpdateUserValidator>();
 
-services.AddValidatorsFromAssemblyContaining<SpaceTechValidator.SpaceTechDtoValidator>();
-
 services.AddMvc(options => { options.Filters.Add(typeof(ValidateModelStateMiddleware)); });
 
 services.AddAutoMapper(typeof(Program));
