@@ -3,11 +3,13 @@ import {
   clearStoreActionType,
   getUserActionType,
   loginUserActionType,
+  logoutUserActionType,
   registerUserActionType,
   updateUserActionType,
   userSliceName,
 } from "constants/actionTypes";
-import { authUserUrl, loginUserUrl, registerUserUrl } from "constants/apiUrls";
+import { baseUserUrl, loginUserUrl, registerUserUrl } from "constants/apiUrls";
+import { authRoute, loginRoute } from "constants/routes";
 import { ValidationErrors } from "interfaces/errors";
 import {
   AuthUserResponse,
@@ -15,6 +17,7 @@ import {
   RegisterUserRequest,
   UpdateUserRequest,
 } from "interfaces/users";
+import { useHistory } from "react-router-dom";
 import { resetSpaceTechState } from "state/spaceTech/spaceTechSlice";
 import { resetUserState } from "state/user/userSlice";
 import customFetch from "utils/axios";
@@ -59,7 +62,7 @@ const updateUser = createAsyncThunk<
   }
 >(`${userSliceName}${updateUserActionType}`, async (updatingUser, thunkAPI) => {
   try {
-    const resp = await customFetch.patch(`${authUserUrl}`, updatingUser);
+    const resp = await customFetch.patch(`${baseUserUrl}`, updatingUser);
     return resp.data;
   } catch (error: any) {
     checkPermissions(error, thunkAPI);
@@ -75,10 +78,26 @@ const getUser = createAsyncThunk<
   }
 >(`${userSliceName}${getUserActionType}`, async (_, thunkAPI) => {
   try {
-    const resp = await customFetch.get(`${authUserUrl}`);
+    const resp = await customFetch.get(`${baseUserUrl}`);
     return resp.data;
   } catch (error: any) {
     checkPermissions(error, thunkAPI);
+    return thunkAPI.rejectWithValue(error.response.data);
+  }
+});
+
+const logoutUser = createAsyncThunk<
+  string,
+  void,
+  {
+    rejectValue: Partial<ValidationErrors>;
+  }
+>(`${userSliceName}${logoutUserActionType}`, async (_, thunkAPI) => {
+  try {
+    const resp = await customFetch.delete(`${baseUserUrl}`);
+    thunkAPI.dispatch(clearStore());
+    return resp.data;
+  } catch (error: any) {
     return thunkAPI.rejectWithValue(error.response.data);
   }
 });
@@ -92,6 +111,8 @@ const clearStore = createAsyncThunk<
   }
 >(`${userSliceName}${clearStoreActionType}`, async (_, thunkAPI) => {
   try {
+    const history = useHistory();
+    history.push(`${authRoute}/${loginRoute}`);
     removeIsUserAuthenticatedFromLocalStorage();
     thunkAPI.dispatch(resetUserState());
     thunkAPI.dispatch(resetSpaceTechState());
@@ -102,4 +123,4 @@ const clearStore = createAsyncThunk<
   }
 });
 
-export { registerUser, loginUser, updateUser, getUser, clearStore };
+export { registerUser, loginUser, updateUser, getUser, logoutUser, clearStore };

@@ -31,137 +31,51 @@ import {
 } from "@chakra-ui/react";
 
 // Custom components
-import NFT from "components/card/NFT";
+import NFT from "components/card/SpaceTechCard";
 import Banner from "views/admin/main/components/Banner";
 
 // Assets
-import Avatar1 from "assets/img/avatars/avatar1.png";
-import Avatar2 from "assets/img/avatars/avatar2.png";
-import Avatar3 from "assets/img/avatars/avatar3.png";
-import Avatar4 from "assets/img/avatars/avatar4.png";
-import Nft1 from "assets/img/nfts/Nft1.png";
-import Nft2 from "assets/img/nfts/Nft2.png";
-import Nft3 from "assets/img/nfts/Nft3.png";
-import axios from "axios";
+import { showToastErrorsOnly } from "notifications/toast";
 import { useCallback, useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "state/hooks";
+import {
+  getAllSpaceTechFromPublicApi,
+  getAllSpaceTechFromSavedList,
+} from "state/spaceTech/spaceTechThunk";
 
 export default function Main() {
-  // Chakra Color Mode
-  const textColor = useColorModeValue("secondaryGray.900", "white");
-  // 	const test = [
-  //   {
-  //     "name":["Marketplace",false],
-  //     "quantity": 2458,
-  //     "date": "12.Jan.2021",
-  //     "progress": 75.5
-  //   },
-  //   {
-  //     "name":["Venus DB PRO",true],
-  //     "quantity": 1485,
-  //     "date": "21.Feb.2021",
-  //     "progress": 35.4
-  //   },
-  //   {
-  //     "name":["Venus DS",true],
-  //     "quantity": 1024,
-  //     "date": "13.Mar.2021",
-  //     "progress": 25
-  //   }];
+  const dispatch = useAppDispatch();
+  const { spaceTechFromPublicApi, savedSpaceTechIdCodes } = useAppSelector(
+    (store) => store.spaceTech
+  );
 
-  const handleFetchApis = useCallback(async (): Promise<string> => {
-    try {
-      const resultAction = await axios.get(
-        "https://api.nasa.gov/techtransfer/patent/?engine&api_key=ssiutVFb8AlTB0um9SFbaeavYSRO1E0n6oWBekdB"
-      );
-      console.log("result: ", resultAction);
-      // console.log(resultAction.data.results);
-      return "10";
-    } catch (error) {
-      console.log("err: ", error);
-      return;
-    }
+  const handleFetchSpaceTechFromPublicApi = useCallback(async () => {
+    const resultAction = await dispatch(getAllSpaceTechFromPublicApi());
 
-    // console.log("result2: ", resultAction.data.results);
+    showToastErrorsOnly(
+      resultAction,
+      getAllSpaceTechFromPublicApi,
+      "Error fetching space tech"
+    );
+  }, [dispatch]);
 
-    // handleToastErrors(resultAction, getAllApis, getAllApisErrorMsg);
-  }, []);
+  // needed to check savedSpaceTechIdCodes
+  const handleFetchSpaceTechFromSavedList = useCallback(async () => {
+    const resultAction = await dispatch(getAllSpaceTechFromSavedList());
 
-  const test30 = [
-    {
-      name: [
-        "@maddison_c21",
-        "https://images.unsplash.com/photo-1506863530036-1efeddceb993?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2244&q=80",
-      ],
-      artworks: "9821",
-      rating: 97,
-    },
-    {
-      name: [
-        "@karl.will02",
-        "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1780&q=80",
-      ],
-      artworks: "7032",
-      rating: 87,
-    },
-  ];
+    showToastErrorsOnly(
+      resultAction,
+      getAllSpaceTechFromSavedList,
+      "Error fetching saved space tech"
+    );
+  }, [dispatch]);
 
   useEffect(() => {
-    handleFetchApis();
-  }, [handleFetchApis]);
+    handleFetchSpaceTechFromPublicApi();
+    handleFetchSpaceTechFromSavedList();
+  }, [handleFetchSpaceTechFromPublicApi, handleFetchSpaceTechFromSavedList]);
 
-  const test2 = [
-    {
-      name: "Abstract Colors",
-      author: "By Esthera Jackson",
-      bidders: [
-        Avatar1,
-        Avatar2,
-        Avatar3,
-        Avatar4,
-        Avatar1,
-        Avatar1,
-        Avatar1,
-        Avatar1,
-      ],
-      image: Nft1,
-      currentbid: "0.91 ETH",
-      download: "#",
-    },
-    {
-      name: "Abstract Colors",
-      author: "By Esthera Jackson",
-      bidders: [
-        Avatar1,
-        Avatar2,
-        Avatar3,
-        Avatar4,
-        Avatar1,
-        Avatar1,
-        Avatar1,
-        Avatar1,
-      ],
-      image: Nft1,
-      currentbid: "0.91 ETH",
-      download: "#",
-    },
-    {
-      name: "Abstract Colors",
-      author: "By Esthera Jackson",
-      bidders: [
-        Avatar1,
-        Avatar2,
-        Avatar3,
-        Avatar4,
-        Avatar1,
-        Avatar1,
-        Avatar1,
-        Avatar1,
-      ],
-      image: Nft1,
-      currentbid: "0.91 ETH",
-      download: "#",
-    },
-  ];
+  const textColor = useColorModeValue("secondaryGray.900", "white");
 
   return (
     <Box pt={{ base: "180px", md: "80px", xl: "80px" }}>
@@ -185,83 +99,22 @@ export default function Main() {
               align={{ base: "start", md: "center" }}
             >
               <Text color={textColor} fontSize="2xl" ms="24px" fontWeight="700">
-                Trending NFTs
+                Space Tech
               </Text>
             </Flex>
             <SimpleGrid columns={{ base: 1, md: 3 }} gap="20px">
-              <NFT
-                name="Abstract Colors"
-                author="By Esthera Jackson"
-                bidders={[
-                  Avatar1,
-                  Avatar2,
-                  Avatar3,
-                  Avatar4,
-                  Avatar1,
-                  Avatar1,
-                  Avatar1,
-                  Avatar1,
-                ]}
-                image={Nft1}
-                currentbid="0.91 ETH"
-                download="#"
-              />
-              <NFT
-                name="ETH AI Brain"
-                author="By Nick Wilson"
-                bidders={[
-                  Avatar1,
-                  Avatar2,
-                  Avatar3,
-                  Avatar4,
-                  Avatar1,
-                  Avatar1,
-                  Avatar1,
-                  Avatar1,
-                ]}
-                image={Nft2}
-                currentbid="0.91 ETH"
-                download="#"
-              />
-              <NFT
-                name="Mesh Gradients "
-                author="By Will Smith"
-                bidders={[
-                  Avatar1,
-                  Avatar2,
-                  Avatar3,
-                  Avatar4,
-                  Avatar1,
-                  Avatar1,
-                  Avatar1,
-                  Avatar1,
-                ]}
-                image={Nft3}
-                currentbid="0.91 ETH"
-                download="#"
-              />
-            </SimpleGrid>
-            {/* <SimpleGrid columns={{ base: 1, md: 3 }} gap='20px'>
-						{test.map((obj) => (
-							<Text color={textColor} fontSize='2xl' ms='24px' fontWeight='700'>
-								{obj.date}
-							</Text>
-						))}
-
-						</SimpleGrid> */}
-            <SimpleGrid columns={{ base: 1, md: 3 }} gap="20px">
-              {test2.map((obj) => {
-                console.log(test30);
-
+              {spaceTechFromPublicApi?.map((spaceTech) => {
                 return (
                   <NFT
-                    key={obj.name}
-                    name={obj.name}
-                    author={obj.author}
-                    bidders={obj.bidders}
-                    image={obj.image}
-                    currentbid={obj.currentbid}
-                    download={obj.download}
+                    key={spaceTech.idCode}
+                    idCode={spaceTech.idCode}
+                    title={spaceTech.title}
+                    description={spaceTech.description}
+                    topic={spaceTech.topic}
+                    mediaUrl={spaceTech.mediaUrl}
+                    disableSave={savedSpaceTechIdCodes.includes(
+                      spaceTech.idCode
+                    )}
                   />
                 );
               })}

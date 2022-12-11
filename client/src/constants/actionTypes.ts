@@ -9,6 +9,7 @@ const registerUserActionType = "/registerUser";
 const loginUserActionType = "/loginUser";
 const updateUserActionType = "/updateUser";
 const getUserActionType = "/getUser";
+const logoutUserActionType = "/logoutUser";
 const clearStoreActionType = "/clearStore";
 
 export {
@@ -22,5 +23,6 @@ export {
   loginUserActionType,
   updateUserActionType,
   getUserActionType,
+  logoutUserActionType,
   clearStoreActionType,
 };

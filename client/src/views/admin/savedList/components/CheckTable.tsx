@@ -10,24 +10,27 @@ import {
   Tr,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { useMemo } from "react";
+import { capitalCase } from "change-case";
+import Card from "components/card/Card";
+import SavedListTableMenu from "components/menu/MainMenu";
+import { showToast } from "notifications/toast";
+import { useMemo, useState } from "react";
 import {
   useGlobalFilter,
   usePagination,
   useSortBy,
   useTable,
 } from "react-table";
+import { useAppDispatch } from "state/hooks";
+import { deleteSpaceTech } from "state/spaceTech/spaceTechThunk";
 
-// Custom components
-import Card from "components/card/Card";
-import Menu from "components/menu/MainMenu";
 export default function CheckTable(props: {
-  columnsData: any;
+  columnHeadingData: any;
   tableData: any;
 }) {
-  const { columnsData, tableData } = props;
+  const { columnHeadingData, tableData } = props;
 
-  const columns = useMemo(() => columnsData, [columnsData]);
+  const columns = useMemo(() => columnHeadingData, [columnHeadingData]);
   const data = useMemo(() => tableData, [tableData]);
 
   const tableInstance = useTable(
@@ -48,10 +51,33 @@ export default function CheckTable(props: {
     prepareRow,
     initialState,
   } = tableInstance;
+
   initialState.pageSize = 11;
 
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const borderColor = useColorModeValue("gray.200", "whiteAlpha.100");
+
+  const [checkedItems, setCheckedItems] = useState([]);
+
+  const dispatch = useAppDispatch();
+
+  const handleDeleteSpaceTech = async () => {
+    Object.values(checkedItems).forEach(async (spaceTechId: number) => {
+      const resultAction = await dispatch(
+        deleteSpaceTech(spaceTechId.toString())
+      );
+
+      showToast(
+        resultAction,
+        deleteSpaceTech,
+        "Removed space tech!",
+        "Error removing space tech"
+      );
+    });
+
+    setCheckedItems([]);
+  };
+
   return (
     <Card
       flexDirection="column"
@@ -68,7 +94,9 @@ export default function CheckTable(props: {
         >
           Check Table
         </Text>
-        <Menu />
+        <SavedListTableMenu
+          handleDeleteSpaceTechFunction={handleDeleteSpaceTech}
+        />
       </Flex>
       <Table {...getTableProps()} variant="simple" color="gray.500" mb="24px">
         <Thead>
@@ -85,7 +113,7 @@ export default function CheckTable(props: {
                     justify="space-between"
                     align="center"
                     fontSize={{ sm: "10px", lg: "12px" }}
-                    color="gray.400"
+                    color="gray.500"
                   >
                     {column.render("Header")}
                   </Flex>
@@ -101,20 +129,33 @@ export default function CheckTable(props: {
               <Tr {...row.getRowProps()} key={index}>
                 {row.cells.map((cell, index) => {
                   let data;
-                  if (cell.column.Header === "NAME") {
+                  if (cell.column.Header === "ID") {
                     data = (
                       <Flex align="center">
                         <Checkbox
-                          defaultChecked={cell.value[1]}
                           colorScheme="brandScheme"
                           me="10px"
+                          onChange={() => {
+                            if (checkedItems.includes(cell.value)) {
+                              setCheckedItems((prevCheckedItems) =>
+                                prevCheckedItems.filter(
+                                  (item) => item !== cell.value
+                                )
+                              );
+                            } else {
+                              setCheckedItems((prevCheckedItems) => [
+                                ...prevCheckedItems,
+                                cell.value,
+                              ]);
+                            }
+                          }}
                         />
                         <Text color={textColor} fontSize="sm" fontWeight="700">
-                          {cell.value[0]}
+                          {cell.value}
                         </Text>
                       </Flex>
                     );
-                  } else if (cell.column.Header === "PROGRESS") {
+                  } else if (cell.column.Header === "TITLE") {
                     data = (
                       <Flex align="center">
                         <Text
@@ -123,29 +164,37 @@ export default function CheckTable(props: {
                           fontSize="sm"
                           fontWeight="700"
                         >
-                          {cell.value}%
+                          {cell.value}
                         </Text>
                       </Flex>
                     );
-                  } else if (cell.column.Header === "QUANTITY") {
+                  } else if (cell.column.Header === "DESCRIPTION") {
                     data = (
                       <Text color={textColor} fontSize="sm" fontWeight="700">
                         {cell.value}
                       </Text>
                     );
-                  } else if (cell.column.Header === "DATE") {
+                  } else if (cell.column.Header === "TOPIC") {
                     data = (
                       <Text color={textColor} fontSize="sm" fontWeight="700">
-                        {cell.value}
+                        {capitalCase(cell.value)}
                       </Text>
                     );
                   }
+
+                  const isCellHeaderEqualToDescription =
+                    cell.column.Header === "DESCRIPTION";
+
                   return (
                     <Td
                       {...cell.getCellProps()}
                       key={index}
                       fontSize={{ sm: "14px" }}
-                      minW={{ sm: "150px", md: "200px", lg: "auto" }}
+                      minW={{
+                        sm: isCellHeaderEqualToDescription ? "300px" : "150px",
+                        md: "200px",
+                        lg: "auto",
+                      }}
                       borderColor="transparent"
                     >
                       {data}

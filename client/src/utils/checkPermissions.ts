@@ -4,7 +4,7 @@ import { clearStore } from "state/user/userThunk";
 export const checkPermissions = (error: any, thunkAPI: any) => {
   const errorCode = error.response.status;
 
-  if (errorCode.toString()[0] != "2") {
+  if (errorCode.toString() === ("401" || "403" || "404" || "429" || "500")) {
     thunkAPI.dispatch(clearStore());
 
     return thunkAPI.rejectWithValue({

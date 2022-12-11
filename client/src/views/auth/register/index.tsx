@@ -42,6 +42,7 @@ import { useState } from "react";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEyeCloseLine } from "react-icons/ri";
 import { NavLink, useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useAppDispatch } from "state/hooks";
 import { registerUser } from "state/user/userThunk";
 import { addIsUserAuthenticatedToLocalStorage } from "utils/localStorage";
@@ -67,6 +68,11 @@ export default function Register() {
   const currentUser = { firstName, lastName, email, password };
 
   const handleRegisterUser = async () => {
+    if (!firstName || !lastName || !email || !password) {
+      toast.error("Please fill out all fields");
+      return;
+    }
+
     const resultAction = await dispatch(registerUser(currentUser));
 
     const resp = showToast(

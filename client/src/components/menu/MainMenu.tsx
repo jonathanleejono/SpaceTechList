@@ -11,17 +11,14 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 // Assets
-import {
-  MdOutlineCardTravel,
-  MdOutlineLightbulb,
-  MdOutlineMoreHoriz,
-  MdOutlinePerson,
-  MdOutlineSettings,
-} from "react-icons/md";
+import { BsFillTrashFill } from "react-icons/bs";
+import { MdOutlineMoreHoriz } from "react-icons/md";
 
-export default function Banner(props: { [x: string]: any }) {
-  const { ...rest } = props;
-
+export default function SavedListTableMenu({
+  handleDeleteSpaceTechFunction,
+}: {
+  handleDeleteSpaceTechFunction: any;
+}) {
   const textColor = useColorModeValue("secondaryGray.500", "white");
   const textHover = useColorModeValue(
     { color: "secondaryGray.900", bg: "unset" },
@@ -64,7 +61,6 @@ export default function Banner(props: { [x: string]: any }) {
         lineHeight="100%"
         onClick={onOpen1}
         borderRadius="10px"
-        {...rest}
       >
         <Icon as={MdOutlineMoreHoriz} color={iconColor} w="24px" h="24px" />
       </MenuButton>
@@ -92,73 +88,12 @@ export default function Banner(props: { [x: string]: any }) {
             bg: "transparent",
           }}
           mb="10px"
+          onClick={handleDeleteSpaceTechFunction}
         >
           <Flex align="center">
-            <Icon as={MdOutlinePerson} h="16px" w="16px" me="8px" />
-            <Text fontSize="sm" fontWeight="400">
-              Panel 1
-            </Text>
-          </Flex>
-        </MenuItem>
-        <MenuItem
-          transition="0.2s linear"
-          p="0px"
-          borderRadius="8px"
-          color={textColor}
-          _hover={textHover}
-          _active={{
-            bg: "transparent",
-          }}
-          _focus={{
-            bg: "transparent",
-          }}
-          mb="10px"
-        >
-          <Flex align="center">
-            <Icon as={MdOutlineCardTravel} h="16px" w="16px" me="8px" />
-            <Text fontSize="sm" fontWeight="400">
-              Panel 2
-            </Text>
-          </Flex>
-        </MenuItem>
-        <MenuItem
-          transition="0.2s linear"
-          p="0px"
-          borderRadius="8px"
-          color={textColor}
-          _hover={textHover}
-          _active={{
-            bg: "transparent",
-          }}
-          _focus={{
-            bg: "transparent",
-          }}
-          mb="10px"
-        >
-          <Flex align="center">
-            <Icon as={MdOutlineLightbulb} h="16px" w="16px" me="8px" />
-            <Text fontSize="sm" fontWeight="400">
-              Panel 3
-            </Text>
-          </Flex>
-        </MenuItem>
-        <MenuItem
-          transition="0.2s linear"
-          color={textColor}
-          _hover={textHover}
-          p="0px"
-          borderRadius="8px"
-          _active={{
-            bg: "transparent",
-          }}
-          _focus={{
-            bg: "transparent",
-          }}
-        >
-          <Flex align="center">
-            <Icon as={MdOutlineSettings} h="16px" w="16px" me="8px" />
-            <Text fontSize="sm" fontWeight="400">
-              Panel 4
+            <Icon as={BsFillTrashFill} h="20px" w="20px" me="8px" />
+            <Text fontSize="16px" fontWeight="500">
+              Delete Space Tech
             </Text>
           </Flex>
         </MenuItem>

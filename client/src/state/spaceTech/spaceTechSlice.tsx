@@ -66,8 +66,9 @@ const spaceTechSlice = createSlice({
     builder.addCase(addSpaceTech.pending, (state) => {
       state.isLoading = true;
     }),
-      builder.addCase(addSpaceTech.fulfilled, (state) => {
+      builder.addCase(addSpaceTech.fulfilled, (state, { payload }) => {
         state.isLoading = false;
+        state.savedSpaceTechIdCodes.push(payload.idCode);
       }),
       builder.addCase(addSpaceTech.rejected, (state) => {
         state.isLoading = false;

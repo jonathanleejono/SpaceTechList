@@ -1,5 +1,4 @@
 import { Flex, useColorModeValue } from "@chakra-ui/react";
-import { SearchBar } from "components/navbar/searchBar/SearchBar";
 import ToggleDarkLightMode from "components/navbar/ToggleDarkLightMode";
 import ToggleSidebar from "components/sidebar/ToggleSidebar";
 import PropTypes from "prop-types";
@@ -26,17 +25,8 @@ export default function NavbarLinksAdmin(props: { secondary: boolean }) {
       p="10px"
       borderRadius="30px"
       boxShadow={shadow}
+      px="16px"
     >
-      <SearchBar
-        mb={() => {
-          if (secondary) {
-            return { base: "10px", md: "unset" };
-          }
-          return "unset";
-        }}
-        me="10px"
-        borderRadius="30px"
-      />
       <ToggleSidebar routes={routes} />
       <ToggleDarkLightMode />
       <AccountPopover shadow={shadow} menuBg={menuBg} />

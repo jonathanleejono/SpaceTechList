@@ -1,17 +1,19 @@
-// Chakra imports
-import { Flex, useColorModeValue } from "@chakra-ui/react";
-
-// Custom components
-import { HorizonLogo } from "components/icons/Icons";
+import { Box, Flex } from "@chakra-ui/react";
+import SpaceTechListImage from "assets/img/SPACETECHLIST_WHITEBG.png";
 import { HSeparator } from "components/separator/Separator";
 
 export function SidebarBrand() {
-  //   Chakra color mode
-  const logoColor = useColorModeValue("navy.700", "white");
-
   return (
     <Flex alignItems="center" flexDirection="column">
-      <HorizonLogo h="26px" w="175px" my="32px" color={logoColor} />
+      <Box margin={4} mb={10}>
+        <img
+          src={SpaceTechListImage}
+          alt="space tech list image"
+          className="logo"
+          height="100px"
+          width="230px"
+        />
+      </Box>
       <HSeparator mb="20px" />
     </Flex>
   );

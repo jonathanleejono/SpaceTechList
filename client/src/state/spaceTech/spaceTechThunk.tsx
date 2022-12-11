@@ -27,32 +27,16 @@ const getAllSpaceTechFromPublicApi = createAsyncThunk<
   void,
   {
     rejectValue: Partial<ValidationErrors>;
-    // state: RootState;
   }
 >(
   `${spaceTechSliceName}${getAllSpaceTechFromPublicApiActionType}`,
   async (_, thunkAPI) => {
     try {
-      // const { page, search, sort, status, monitoring, host } =
-      //   thunkAPI.getState().allApis;
-
-      const resp = await customFetch.get(
-        getAllSpaceTechFromPublicApiUrl
-        //   , {
-        //   params: {
-        //     sort,
-        //     status,
-        //     monitoring,
-        //     host,
-        //     page,
-        //     search,
-        //   },
-        // }
-      );
+      const resp = await customFetch.get(getAllSpaceTechFromPublicApiUrl);
       return resp.data;
-    } catch (error) {
+    } catch (error: any) {
       checkPermissions(error, thunkAPI);
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue(error.response.data);
     }
   }
 );
@@ -69,9 +53,9 @@ const getAllSpaceTechFromSavedList = createAsyncThunk<
     try {
       const resp = await customFetch.get(getAllSpaceTechFromSavedListUrl);
       return resp.data;
-    } catch (error) {
+    } catch (error: any) {
       checkPermissions(error, thunkAPI);
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue(error.response.data);
     }
   }
 );
@@ -88,9 +72,9 @@ const addSpaceTech = createAsyncThunk<
     try {
       const resp = await customFetch.post(`${addSpaceTechUrl}`, newSpaceTech);
       return resp.data;
-    } catch (error) {
+    } catch (error: any) {
       checkPermissions(error, thunkAPI);
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue(error.response.data);
     }
   }
 );
@@ -109,9 +93,9 @@ const deleteSpaceTech = createAsyncThunk<
       const resp = await customFetch.delete(`${deleteSpaceTechUrl}/${_id}`);
       thunkAPI.dispatch(getAllSpaceTechFromSavedList());
       return resp.data;
-    } catch (error) {
+    } catch (error: any) {
       checkPermissions(error, thunkAPI);
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue(error.response.data);
     }
   }
 );

@@ -10,7 +10,6 @@ const deleteSpaceTechUrl = `${baseSpaceTechUrl}/saved-list`; // needs :id
 const baseUserUrl = `${baseApiUrl}/user`;
 const registerUserUrl = `${baseUserUrl}/register`;
 const loginUserUrl = `${baseUserUrl}/login`;
-const authUserUrl = `${baseUserUrl}/user`;
 
 export {
   baseUrl,
@@ -20,5 +19,5 @@ export {
   deleteSpaceTechUrl,
   registerUserUrl,
   loginUserUrl,
-  authUserUrl,
+  baseUserUrl,
 };
