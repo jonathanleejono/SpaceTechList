@@ -22,18 +22,20 @@ public class UserController : ControllerBase
 
     private readonly IJwtUtil jwtUtil;
 
-    private readonly bool isProductionEnv = string.Equals(
-        Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"),
-        "production", StringComparison.InvariantCultureIgnoreCase);
+    private readonly IWebHostEnvironment env;
 
-
-    public UserController(ILogger<UserController> logger, IUserRepository userRepository, IJwtUtil jwtUtil)
+    public UserController(ILogger<UserController> logger,
+        IUserRepository userRepository,
+        IJwtUtil jwtUtil,
+        IWebHostEnvironment env)
     {
         this.logger = logger;
 
         this.userRepository = userRepository;
 
         this.jwtUtil = jwtUtil;
+
+        this.env = env;
 
     }
 
@@ -48,9 +50,9 @@ public class UserController : ControllerBase
         Response.Cookies.Append(Cookies.cookieName, accessToken,
             new CookieOptions()
             {
-                HttpOnly = isProductionEnv ? true : false,
-                SameSite = isProductionEnv ? SameSiteMode.None : SameSiteMode.Lax,
-                Secure = isProductionEnv ? true : false,
+                HttpOnly = env.IsProduction() ? true : false,
+                SameSite = env.IsProduction() ? SameSiteMode.None : SameSiteMode.Lax,
+                Secure = env.IsProduction() ? true : false,
                 MaxAge = TimeSpan.FromHours(1)
             });
 
@@ -69,9 +71,9 @@ public class UserController : ControllerBase
         Response.Cookies.Append(Cookies.cookieName, accessToken,
             new CookieOptions()
             {
-                HttpOnly = isProductionEnv ? true : false,
-                SameSite = isProductionEnv ? SameSiteMode.None : SameSiteMode.Lax,
-                Secure = isProductionEnv ? true : false,
+                HttpOnly = env.IsProduction() ? true : false,
+                SameSite = env.IsProduction() ? SameSiteMode.None : SameSiteMode.Lax,
+                Secure = env.IsProduction() ? true : false,
                 MaxAge = TimeSpan.FromHours(1)
             });
 

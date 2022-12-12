@@ -114,6 +114,8 @@ app.UseAuthorization();
 
 app.MapGet("/ping", () => new { ping = "pong!" });
 
+app.MapGet("/env", () => new { Env = app.Environment.IsProduction() });
+
 app.MapControllers();
 
 app.Run();
