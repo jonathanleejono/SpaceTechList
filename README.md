@@ -2,8 +2,6 @@
 
 This app showcases cool space tech where users can save and view later in an organized list. The public NASA TechTransfer API is used to fetch the space tech data, which displays patents, software, and other technology a part of the NASA Technology Transfer Program.
 
-Live app: https://spacetechlist.vercel.app/
-
 ### Backend:
 - C# 
 - .NET 7
